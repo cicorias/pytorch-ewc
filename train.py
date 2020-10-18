@@ -132,6 +132,9 @@ def train(model, train_datasets, test_datasets, epochs_per_task=10,
                 '=> Estimating diagonals of the fisher information matrix...',
                 flush=True, end='',
             )
+            # NOTE: handle out of memory
+            import gc
+            gc.collect()
             model.consolidate(model.estimate_fisher(
                 train_dataset, fisher_estimation_sample_size
             ))

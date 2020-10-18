@@ -9,11 +9,16 @@ from torch.nn import init
 
 
 def get_data_loader(dataset, batch_size, cuda=False, collate_fn=None):
+    from sys import platform
+    if platform == "win32":
+        num_workers = 0
+    else:
+        num_workers = 2
 
     return DataLoader(
         dataset, batch_size=batch_size,
         shuffle=True, collate_fn=(collate_fn or default_collate),
-        **({'num_workers': 2, 'pin_memory': True} if cuda else {})
+        **({'num_workers': num_workers, 'pin_memory': False} if cuda else {})
     )
 
 
